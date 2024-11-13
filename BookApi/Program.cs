@@ -8,8 +8,19 @@ namespace BookApi
 
             //Add services
             builder.Services.AddControllers();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MyCors", builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    ;
+                });
+            });
 
             var app = builder.Build();
+            app.UseCors("MyCors");
 
             //map services
             app.MapControllers();
